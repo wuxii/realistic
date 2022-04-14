@@ -1,6 +1,7 @@
 package com.realistic.metadata
 
 import java.sql.JDBCType
+import java.util.Objects
 
 /**
  * @author wuxin
@@ -10,7 +11,7 @@ class ColumnMetadata(
     var sqlType: JDBCType = JDBCType.VARCHAR,
     var nullable: Boolean = false,
     var length: Int? = -1,
-    var javaType: String? = "",
+    var javaType: Class<*> = Objects::class.java,
     var remarks: String? = "",
     var defaultValue: Any? = null
 ) : Metadata {
