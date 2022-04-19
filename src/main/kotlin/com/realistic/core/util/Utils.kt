@@ -1,14 +1,13 @@
-package com.realistic.util
+package com.realistic.core.util
 
-import com.realistic.Cell
-import com.realistic.Row
-import com.realistic.metadata.ColumnMetadata
+import com.realistic.core.Cell
+import com.realistic.core.Row
+import com.realistic.core.metadata.ColumnMetadata
 import java.sql.JDBCType
 import java.sql.ResultSet
 import java.sql.ResultSetMetaData
 import java.util.function.Predicate
 import java.util.stream.Collectors
-import kotlin.streams.toList
 
 /**
  * @author wuxin

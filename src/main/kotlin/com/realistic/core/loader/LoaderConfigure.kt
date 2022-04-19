@@ -1,4 +1,4 @@
-package com.realistic.loader
+package com.realistic.core.loader
 
 /**
  * @author wuxin

@@ -1,15 +1,16 @@
-package com.realistic.loader
+package com.realistic.core.loader
 
-import com.realistic.Row
-import com.realistic.metadata.ColumnMetadata
-import com.realistic.util.Utils
+import com.realistic.core.JdbcTypeConverter
+import com.realistic.core.Row
+import com.realistic.core.metadata.ColumnMetadata
+import com.realistic.core.util.Utils
 import java.sql.Connection
 import java.sql.JDBCType
 
 /**
  * @author wuxin
  */
-class ColumnMetadataLoader : MetadataLoader<ColumnMetadata> {
+class ColumnMetadataLoader(private val jdbcTypeConverter: JdbcTypeConverter) : MetadataLoader<ColumnMetadata> {
 
     override fun load(connection: Connection, properties: Map<String, Any>): List<ColumnMetadata> {
         val insensitiveProperties = properties.toSortedMap(String.CASE_INSENSITIVE_ORDER)
@@ -30,13 +31,14 @@ class ColumnMetadataLoader : MetadataLoader<ColumnMetadata> {
         val dataType = row.getValue("DATA_TYPE")
         val length = row.getValue("COLUMN_SIZE")
         val remarks = row.getValue("REMARKS")
-        val defaultValue = row.getValue("COLUMN_DEFAULT")
+        val defaultValue = row.getValue("COLUMN_DEF")
         val metadata = ColumnMetadata(name as String)
         metadata.remarks = if (remarks == null) "" else remarks as String
         metadata.length = if (length == null) -1 else length as Int
         metadata.sqlType = JDBCType.valueOf(dataType as Int)
         metadata.nullable = if (nullable == null) false else "YES" == nullable
         metadata.defaultValue = defaultValue
+        metadata.javaType = jdbcTypeConverter.convert(metadata.sqlType)!!
         return metadata
     }
 

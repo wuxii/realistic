@@ -1,12 +1,12 @@
-package com.realistic.loader
+package com.realistic.core.loader
 
-import com.realistic.Row
-import com.realistic.metadata.ColumnMetadata
-import com.realistic.metadata.TableMetadata
-import com.realistic.util.Utils
+import com.realistic.core.JdbcTypeConverter
+import com.realistic.core.Row
+import com.realistic.core.metadata.ColumnMetadata
+import com.realistic.core.metadata.TableMetadata
+import com.realistic.core.util.Utils
 import java.sql.Connection
 import java.util.stream.Collectors
-import kotlin.streams.toList
 
 
 /**
@@ -14,7 +14,7 @@ import kotlin.streams.toList
  */
 class TableMetadataLoader(var columnMetadataLoader: MetadataLoader<ColumnMetadata>) : MetadataLoader<TableMetadata> {
 
-    constructor() : this(ColumnMetadataLoader())
+    constructor() : this(ColumnMetadataLoader(JdbcTypeConverter.mysql()))
 
     override fun load(connection: Connection, properties: Map<String, Any>): List<TableMetadata> {
         val databaseMetadata = connection.metaData
@@ -39,7 +39,7 @@ class TableMetadataLoader(var columnMetadataLoader: MetadataLoader<ColumnMetadat
         val remarks = row.getValue("REMARKS")
         val columns = columnMetadataLoader.load(
             connection = conn,
-            properties = mapOf("tableName" to (name as String))
+            properties = mapOf("TABLE_NAME" to (name as String))
         )
         return TableMetadata(
             name = name,

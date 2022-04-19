@@ -1,6 +1,6 @@
-package com.realistic
+package com.realistic.core
 
-import com.realistic.metadata.ColumnMetadata
+import com.realistic.core.metadata.ColumnMetadata
 
 /**
  * @author wuxin

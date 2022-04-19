@@ -1,4 +1,4 @@
-package com.realistic.metadata
+package com.realistic.core.metadata
 
 /**
  * @author wuxin
